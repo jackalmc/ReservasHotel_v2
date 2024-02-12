@@ -1,6 +1,6 @@
 # Tarea: Reservas Hotel V2
 ## Profesor: Andrés Rubio del Río
-## Alumno:
+## Alumno: Juan José Almagro Cabrera
 
 En este tercer spring de la tarea deberás modelar la gestión de las **reservas del hotel IES Al-Ándalus**, eliminando la restricción de tamaño en los datos de la aplicación. Por lo que decidimos utilizar estructuras dinámicas de datos, en concreto **Listas**.
 
