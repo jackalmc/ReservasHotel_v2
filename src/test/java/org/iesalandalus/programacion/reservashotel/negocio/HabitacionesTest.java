@@ -1,5 +1,9 @@
 package org.iesalandalus.programacion.reservashotel.negocio;
 
+import org.iesalandalus.programacion.reservashotel.MainApp;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.Habitaciones;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +77,7 @@ public class HabitacionesTest {
             List<Habitacion> copiaHabitaciones = habitaciones.get();
             assertEquals(1, habitaciones.getTamano(), TAMANO_NO_ESPERADO);
             assertEquals(habitacion1, habitaciones.buscar(habitacion1), HABITACION_NO_ESPERADA);
-            assertSame(habitacion1, copiaHabitaciones.get(0), REFERENCIA_NO_ESPERADA);
+            assertNotSame(habitacion1, copiaHabitaciones.get(0), REFERENCIA_NO_ESPERADA);
             assertEquals(habitacion1, copiaHabitaciones.get(0), OPERACION_NO_REALIZADA);
         } catch (OperationNotSupportedException e) {
             fail(EXCEPCION_NO_PROCEDE);
@@ -91,10 +95,10 @@ public class HabitacionesTest {
             List<Habitacion> copiaHabitaciones = habitaciones.get();
             assertEquals(2, habitaciones.getTamano(), TAMANO_NO_ESPERADO);
             assertEquals(habitacion1, habitaciones.buscar(habitacion1), HABITACION_NO_ESPERADA);
-            assertSame(habitacion1, copiaHabitaciones.get(0), REFERENCIA_NO_ESPERADA);
+            assertNotSame(habitacion1, copiaHabitaciones.get(0), REFERENCIA_NO_ESPERADA);
             assertEquals(habitacion1, copiaHabitaciones.get(0), OPERACION_NO_REALIZADA);
             assertEquals(habitacion2, habitaciones.buscar(habitacion2), HABITACION_NO_ESPERADA);
-            assertSame(habitacion2, copiaHabitaciones.get(1), REFERENCIA_NO_ESPERADA);
+            assertNotSame(habitacion2, copiaHabitaciones.get(1), REFERENCIA_NO_ESPERADA);
             assertEquals(habitacion2, copiaHabitaciones.get(1), OPERACION_NO_REALIZADA);
         } catch (OperationNotSupportedException e) {
             fail(EXCEPCION_NO_PROCEDE);
@@ -114,13 +118,13 @@ public class HabitacionesTest {
 
             assertEquals(3, habitaciones.getTamano(), TAMANO_NO_ESPERADO);
             assertEquals(habitacion1, habitaciones.buscar(habitacion1), HABITACION_NO_ESPERADA);
-            assertSame(habitacion1, copiaHabitaciones.get(0), REFERENCIA_NO_ESPERADA);
+            assertNotSame(habitacion1, copiaHabitaciones.get(0), REFERENCIA_NO_ESPERADA);
             assertEquals(habitacion1, copiaHabitaciones.get(0), OPERACION_NO_REALIZADA);
             assertEquals(habitacion2, habitaciones.buscar(habitacion2), HABITACION_NO_ESPERADA);
-            assertSame(habitacion2, copiaHabitaciones.get(1), REFERENCIA_NO_ESPERADA);
+            assertNotSame(habitacion2, copiaHabitaciones.get(1), REFERENCIA_NO_ESPERADA);
             assertEquals(habitacion2, copiaHabitaciones.get(1), OPERACION_NO_REALIZADA);
             assertEquals(habitacion3, habitaciones.buscar(habitacion3), HABITACION_NO_ESPERADA);
-            assertSame(habitacion3, copiaHabitaciones.get(2), REFERENCIA_NO_ESPERADA);
+            assertNotSame(habitacion3, copiaHabitaciones.get(2), REFERENCIA_NO_ESPERADA);
             assertEquals(habitacion3, copiaHabitaciones.get(2), OPERACION_NO_REALIZADA);
 
         } catch (OperationNotSupportedException e) {

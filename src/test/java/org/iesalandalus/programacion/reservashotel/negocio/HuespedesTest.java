@@ -1,5 +1,9 @@
 package org.iesalandalus.programacion.reservashotel.negocio;
 
+import org.iesalandalus.programacion.reservashotel.MainApp;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
+
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.Huespedes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -78,7 +82,7 @@ public class HuespedesTest {
             List<Huesped> copiaHuespedes = huespedes.get();
             assertEquals(1, huespedes.getTamano(), TAMANO_NO_ESPERADO);
             assertEquals(huesped1, huespedes.buscar(huesped1), HUESPED_NO_ESPERADO);
-            assertSame(huesped1, copiaHuespedes.get(0), REFERENCIA_NO_ESPERADA);
+            assertNotSame(huesped1, copiaHuespedes.get(0), REFERENCIA_NO_ESPERADA);
             assertEquals(huesped1, copiaHuespedes.get(0), OPERACION_NO_REALIZADA);
         } catch (OperationNotSupportedException e) {
             fail(EXCEPCION_NO_PROCEDE);
@@ -96,10 +100,10 @@ public class HuespedesTest {
             List<Huesped> copiaHuespedes = huespedes.get();
             assertEquals(2, huespedes.getTamano(), TAMANO_NO_ESPERADO);
             assertEquals(huesped1, huespedes.buscar(huesped1), HUESPED_NO_ESPERADO);
-            assertSame(huesped1, copiaHuespedes.get(0), REFERENCIA_NO_ESPERADA);
+            assertNotSame(huesped1, copiaHuespedes.get(0), REFERENCIA_NO_ESPERADA);
             assertEquals(huesped1, copiaHuespedes.get(0), OPERACION_NO_REALIZADA);
             assertEquals(huesped2, huespedes.buscar(huesped2), HUESPED_NO_ESPERADO);
-            assertSame(huesped2, copiaHuespedes.get(1), REFERENCIA_NO_ESPERADA);
+            assertNotSame(huesped2, copiaHuespedes.get(1), REFERENCIA_NO_ESPERADA);
             assertEquals(huesped2, copiaHuespedes.get(1), OPERACION_NO_REALIZADA);
         } catch (OperationNotSupportedException e) {
             fail(EXCEPCION_NO_PROCEDE);
@@ -119,13 +123,13 @@ public class HuespedesTest {
 
             assertEquals(3, huespedes.getTamano(), TAMANO_NO_ESPERADO);
             assertEquals(huesped1, huespedes.buscar(huesped1), HUESPED_NO_ESPERADO);
-            assertSame(huesped1, copiaHuespedes.get(0), REFERENCIA_NO_ESPERADA);
+            assertNotSame(huesped1, copiaHuespedes.get(0), REFERENCIA_NO_ESPERADA);
             assertEquals(huesped1, copiaHuespedes.get(0), OPERACION_NO_REALIZADA);
             assertEquals(huesped2, huespedes.buscar(huesped2), HUESPED_NO_ESPERADO);
-            assertSame(huesped2, copiaHuespedes.get(1), REFERENCIA_NO_ESPERADA);
+            assertNotSame(huesped2, copiaHuespedes.get(1), REFERENCIA_NO_ESPERADA);
             assertEquals(huesped2, copiaHuespedes.get(1), OPERACION_NO_REALIZADA);
             assertEquals(huesped3, huespedes.buscar(huesped3), HUESPED_NO_ESPERADO);
-            assertSame(huesped3, copiaHuespedes.get(2), REFERENCIA_NO_ESPERADA);
+            assertNotSame(huesped3, copiaHuespedes.get(2), REFERENCIA_NO_ESPERADA);
             assertEquals(huesped3, copiaHuespedes.get(2), OPERACION_NO_REALIZADA);
 
 
