@@ -46,7 +46,7 @@ public class Reservas {
         if (reserva == null)
             throw new NullPointerException("ERROR: No se puede insertar una reserva nula.");
         if (coleccionReservas.contains(reserva))
-            throw new OperationNotSupportedException("ERROR: Ya existe una reserva así.");
+            throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
 
         coleccionReservas.add(new Reserva(reserva));
 
@@ -54,7 +54,7 @@ public class Reservas {
 
     public Reserva buscar(Reserva reserva){
         if (reserva == null)
-            throw new NullPointerException("No se puede buscar una reserva nula");
+            throw new NullPointerException("ERROR: No se puede buscar una reserva nula.");
 
         if (coleccionReservas.contains(reserva))
             return coleccionReservas.get(coleccionReservas.indexOf(reserva));

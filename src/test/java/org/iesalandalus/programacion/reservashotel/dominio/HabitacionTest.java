@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.dominio;
 
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,7 @@ public class HabitacionTest {
     private static final int PUERTA_10=10;
 
     private static final double PRECIO_HABITACION_VALIDO=50;
-    private static final TipoHabitacion TIPO_HABITACION_VALIDA=TipoHabitacion.DOBLE;
+    private static final TipoHabitacion TIPO_HABITACION_VALIDA= TipoHabitacion.DOBLE;
     private static final String MENSAJE_EXCEPCION_NO_CORRECTO = "El mensaje devuelto por la excepción no es correcto.";
     private static final String OBJETO_DEBERIA_SER_NULO = "No se debería haber creado el objeto habitación.";
     private static final String TIPO_EXCEPCION_NO_CORRECTA = "El tipo de la excepción no es correcto.";

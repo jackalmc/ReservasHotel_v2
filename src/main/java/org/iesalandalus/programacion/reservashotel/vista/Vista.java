@@ -7,10 +7,7 @@ import org.iesalandalus.programacion.utilidades.Entrada;
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Vista {
 
@@ -299,6 +296,7 @@ public class Vista {
     private void mostrarReservas(){
         List<Reserva> lista;
         lista = controlador.getReservas();
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva)); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
         System.out.println(" ");
         System.out.println("*****");
         for (Reserva reserva : lista) {

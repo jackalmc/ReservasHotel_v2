@@ -63,7 +63,7 @@ public class Habitaciones {
 
     public Habitacion buscar(Habitacion habitacion){
         if (habitacion == null)
-            throw new NullPointerException("No se puede buscar una habitación nula");
+            throw new NullPointerException("ERROR: No se puede buscar una habitación nula.");
 
         if (coleccionHabitaciones.contains(habitacion))
             return coleccionHabitaciones.get(coleccionHabitaciones.indexOf(habitacion));
