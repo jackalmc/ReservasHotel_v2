@@ -7,8 +7,10 @@ import org.iesalandalus.programacion.utilidades.Entrada;
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class Vista {
 
@@ -100,15 +102,14 @@ public class Vista {
     }
 
     private void mostrarHuespedes(){
-        Huesped[] lista;
+        List<Huesped> lista;
         lista = controlador.getHuespedes();
         System.out.println(" ");
         System.out.println("*****");
-        for (int i=0; i< lista.length; i++) {
 
-            if (lista[i] != null)
-                System.out.println(lista[i]);
-        }
+        for (Huesped huesped : lista)
+            System.out.println(huesped);
+
         System.out.println("*****");
         System.out.println(" ");
     }
@@ -151,15 +152,14 @@ public class Vista {
     }
 
     private void mostrarHabitaciones(){
-        Habitacion[] lista;
+        List<Habitacion> lista;
         lista = controlador.getHabitaciones();
         System.out.println(" ");
         System.out.println("*****");
-        for (int i=0; i< lista.length; i++) {
 
-            if (lista[i] != null)
-                System.out.println(lista[i]);
-        }
+        for (Habitacion habitacion : lista)
+            System.out.println(habitacion);
+
         System.out.println("*****");
         System.out.println(" ");
 
@@ -186,43 +186,30 @@ public class Vista {
     }
 
     private void listarReservas(Huesped huesped){
-        Reserva [] lista;
+        List<Reserva> lista;
         lista = controlador.getReservas(huesped);
-        for (int i=0; i< lista.length; i++) {
+        for (Reserva reserva : lista)
+            System.out.println(reserva);
 
-            if (lista[i] != null)
-                System.out.println(lista[i]);
-        }
     }
 
     private void listarReservas(TipoHabitacion tipoHabitacion){
-        Reserva [] lista;
+        List<Reserva> lista;
         lista = controlador.getReservas(tipoHabitacion);
-        for (int i=0; i< lista.length; i++) {
+        for (Reserva reserva : lista)
+            System.out.println(reserva);
 
-            if (lista[i] != null)
-                System.out.println(lista[i]);
-        }
     }
 
 
-    private Reserva[] getReservasAnulables(Reserva[] reservasAAnular){
+    private List<Reserva> getReservasAnulables(List<Reserva> reservasAAnular){
 
-        int tamano = 0;
-        for (Reserva reserva:reservasAAnular)
-            if (reserva != null)
-                tamano++;
+        List<Reserva> listaAnulables = new ArrayList<>();
 
-        Reserva[] listaAnulables = new Reserva[tamano];
 
-        int posicion=0;
-
-        for (int i=0; i < listaAnulables.length; i++){
-            if (reservasAAnular[i].getFechaInicioReserva().isAfter(LocalDate.now())) {
-
-                listaAnulables[posicion] = new Reserva(reservasAAnular[i]);
-                posicion++;
-            }
+        for (Reserva reserva : reservasAAnular){
+            if (reserva.getFechaInicioReserva().isAfter(LocalDate.now()))
+                listaAnulables.add(new Reserva(reserva));
         }
 
         return listaAnulables;
@@ -261,11 +248,7 @@ public class Vista {
     private void anularReserva(){
 
         Huesped cliente = Consola.getHuespedPorDni();
-        Reserva [] lista = controlador.getReservas(cliente);
-        //System.out.println("DEBUG: length "+lista.length);
-
-        //for (Reserva reserva:lista)
-        //    System.out.println("DEBUG: anular"+reserva);
+        List<Reserva> lista = controlador.getReservas(cliente);
 
         lista = getReservasAnulables(lista);
 
@@ -282,7 +265,7 @@ public class Vista {
 
             if (respuesta.equalsIgnoreCase("si"))
                 try {
-                    controlador.borrar(lista[0]);
+                    controlador.borrar(lista.get(0));
                     System.out.println("**Reserva Eliminada!!!**");
                 } catch (NullPointerException|IllegalArgumentException|OperationNotSupportedException e){
                     System.out.println(e.getMessage());
@@ -292,7 +275,7 @@ public class Vista {
         } else {
             //mostrar todas las posibilidades
             for  (int i = 0; i< getNumElementosNoNulos(lista) ; i++)
-                System.out.println(i + " - " + lista[i]);
+                System.out.println(i + " - " + lista.get(i));
 
             //elegir option
             System.out.println("-------------");
@@ -300,11 +283,11 @@ public class Vista {
             int eleccion;
             do{
                 eleccion = Entrada.entero();
-            }while (eleccion <0 || eleccion > lista.length);
+            }while (eleccion <0 || eleccion > lista.size());
 
             //borrar reserva de la colección usando la posición de la lista nueva.
             try{
-                controlador.borrar(lista[eleccion]);
+                controlador.borrar(lista.get(eleccion));
                 System.out.println("**Reserva Eliminada!!!**");
             }catch (NullPointerException|IllegalArgumentException|OperationNotSupportedException e){
                 System.out.println(e.getMessage());
@@ -314,14 +297,12 @@ public class Vista {
     }
 
     private void mostrarReservas(){
-        Reserva [] lista;
+        List<Reserva> lista;
         lista = controlador.getReservas();
         System.out.println(" ");
         System.out.println("*****");
-        for (int i=0; i< lista.length; i++) {
-
-            if (lista[i] != null)
-                System.out.println(lista[i]);
+        for (Reserva reserva : lista) {
+            System.out.println(reserva);
         }
         System.out.println("*****");
         System.out.println(" ");
@@ -333,7 +314,7 @@ public class Vista {
         Habitacion habitacionDisponible=null;
         int numElementos=0;
 
-        Habitacion[] habitacionesTipoSolicitado= controlador.getHabitaciones(tipoHabitacion);
+        Habitacion[] habitacionesTipoSolicitado= controlador.getHabitaciones(tipoHabitacion).toArray(Habitacion[]::new);
 
         if (habitacionesTipoSolicitado==null)
             return habitacionDisponible;
@@ -343,8 +324,8 @@ public class Vista {
 
             if (habitacionesTipoSolicitado[i]!=null)
             {
-                Reserva[] reservasFuturas = controlador.getReservas(habitacionesTipoSolicitado[i]);
-                numElementos=getNumElementosNoNulos(reservasFuturas);
+                Reserva[] reservasFuturas = controlador.getReservas(habitacionesTipoSolicitado[i]).toArray(Reserva[]::new);
+                numElementos=getNumElementosNoNulos(Arrays.stream(reservasFuturas).toList());
 
                 if (numElementos == 0)
                 {
@@ -412,13 +393,11 @@ public class Vista {
     }
 
 
-    private static int getNumElementosNoNulos(Reserva[] reservas){
+    private static int getNumElementosNoNulos(List<Reserva> reservas){
         int numero=0;
-        for (int i=0; i<reservas.length; i++) {
-            if (reservas[i] != null)
-                numero++;
-        }
-
+        //Tod-o lo que usa esto podría usar size() creo
+        for (Reserva reserva : reservas)
+            numero++;
 
         return numero;
     }
@@ -426,13 +405,7 @@ public class Vista {
     private void realizarCheckin(){
         Huesped cliente = Consola.getHuespedPorDni();
 
-        Reserva [] lista = controlador.getReservas(cliente);
-
-        /*//Lineas para ayudar con el debug
-        System.out.println("DEBUG: length "+lista.length);
-
-        for (Reserva reserva:lista)
-            System.out.println("DEBUG: anular"+reserva);*/
+        List<Reserva> lista = controlador.getReservas(cliente);
 
 
         if (getNumElementosNoNulos(lista) == 0)
@@ -445,7 +418,7 @@ public class Vista {
 
             try{
 
-                controlador.realizarCheckin(controlador.buscar(lista[0]), fechacheckin);
+                controlador.realizarCheckin(controlador.buscar(lista.get(0)), fechacheckin);
                 System.out.println("*** CheckIn Realizado ***");
 
             }catch(IllegalArgumentException|NullPointerException e){
@@ -455,7 +428,7 @@ public class Vista {
         } else {
             //mostrar todas las posibilidades
             for  (int i = 0; i< getNumElementosNoNulos(lista) ; i++)
-                System.out.println(i + " - " + lista[i]);
+                System.out.println(i + " - " + lista.get(i));
 
             //elegir option
             System.out.println("-------------");
@@ -463,14 +436,14 @@ public class Vista {
             int eleccion;
             do{
                 eleccion = Entrada.entero();
-            }while (eleccion <0 || eleccion > lista.length);
+            }while (eleccion <0 || eleccion > lista.size());
 
             System.out.println("Fecha y Hora de CheckIn (dd/MM/yyyy hh:mm:ss): ");
             LocalDateTime fechacheckin = Consola.leerFechaHora(Entrada.cadena());
 
             try{
 
-                controlador.realizarCheckin(controlador.buscar(lista[eleccion]), fechacheckin);
+                controlador.realizarCheckin(controlador.buscar(lista.get(eleccion)), fechacheckin);
                 System.out.println("*** CheckIn Realizado ***");
 
             }catch(IllegalArgumentException|NullPointerException e){
@@ -483,13 +456,7 @@ public class Vista {
     private void realizarCheckout(){
         Huesped cliente = Consola.getHuespedPorDni();
 
-        Reserva [] lista = controlador.getReservas(cliente);
-
-        /*//Lineas para ayudar con el debug
-        System.out.println("DEBUG: length "+lista.length);
-
-        for (Reserva reserva:lista)
-            System.out.println("DEBUG: anular"+reserva);*/
+        List<Reserva> lista = controlador.getReservas(cliente);
 
 
         if (getNumElementosNoNulos(lista) == 0)
@@ -502,7 +469,7 @@ public class Vista {
 
             try{
 
-                controlador.realizarCheckout(controlador.buscar(lista[0]), fechacheckout);
+                controlador.realizarCheckout(controlador.buscar(lista.get(0)), fechacheckout);
                 System.out.println("*** CheckOut Realizado ***");
 
             }catch(IllegalArgumentException|NullPointerException e){
@@ -512,7 +479,7 @@ public class Vista {
         } else {
             //mostrar todas las posibilidades
             for  (int i = 0; i< getNumElementosNoNulos(lista) ; i++)
-                System.out.println(i + " - " + lista[i]);
+                System.out.println(i + " - " + lista.get(i));
 
             //elegir option
             System.out.println("-------------");
@@ -520,14 +487,14 @@ public class Vista {
             int eleccion;
             do{
                 eleccion = Entrada.entero();
-            }while (eleccion <0 || eleccion > lista.length);
+            }while (eleccion <0 || eleccion > lista.size());
 
             System.out.println("Fecha y Hora de CheckOut (dd/MM/yyyy hh:mm:ss): ");
             LocalDateTime fechacheckout = Consola.leerFechaHora(Entrada.cadena());
 
             try{
 
-                controlador.realizarCheckout(controlador.buscar(lista[eleccion]), fechacheckout);
+                controlador.realizarCheckout(controlador.buscar(lista.get(eleccion)), fechacheckout);
                 System.out.println("*** CheckOut Realizado ***");
 
             }catch(IllegalArgumentException|NullPointerException e){
