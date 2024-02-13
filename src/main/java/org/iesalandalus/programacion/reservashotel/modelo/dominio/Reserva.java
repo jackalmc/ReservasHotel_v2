@@ -117,8 +117,13 @@ public class Reserva {
 
     private void setPrecio() {
 
-        Period period = Period.between(fechaInicioReserva,fechaFinReserva);
-        precio = (habitacion.getPrecio() * period.getDays()) + (regimen.getIncrementoPrecio() * numeroPersonas * period.getDays());
+        if (getCheckIn() != null && getCheckOut() != null) {
+            Period period2 = Period.between(getCheckIn().toLocalDate(), getCheckOut().toLocalDate());
+            precio = (habitacion.getPrecio() * period2.getDays()) + (regimen.getIncrementoPrecio() * numeroPersonas * period2.getDays());
+        }else{
+            Period period = Period.between(fechaInicioReserva, fechaFinReserva);
+            precio = (habitacion.getPrecio() * period.getDays()) + (regimen.getIncrementoPrecio() * numeroPersonas * period.getDays());
+        }
     }
 
     public int getNumeroPersonas() {

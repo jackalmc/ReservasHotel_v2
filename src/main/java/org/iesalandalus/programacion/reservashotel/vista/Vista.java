@@ -169,6 +169,9 @@ public class Vista {
     private void mostrarHabitaciones(){
         List<Habitacion> lista;
         lista = controlador.getHabitaciones();
+
+        lista.sort(Comparator.comparing(Habitacion::getIdentificador));
+
         System.out.println(" ");
         System.out.println("*****");
 
@@ -214,6 +217,8 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas(huesped);
 
+        //lista.sort(Comparator.comparing(lista.get(0).getHabitacion()::getIdentificador));
+
         Iterator<Reserva> i = lista.iterator();
         while (i.hasNext())
             System.out.println(i.next());
@@ -224,6 +229,8 @@ public class Vista {
     private void listarReservas(TipoHabitacion tipoHabitacion){
         List<Reserva> lista;
         lista = controlador.getReservas(tipoHabitacion);
+
+        //lista.sort(Comparator.comparing(Huesped::getNombre));
 
         Iterator<Reserva> i = lista.iterator();
         while (i.hasNext())
@@ -248,8 +255,14 @@ public class Vista {
     private void debug(){
         Huesped huesped1 = new Huesped("pepe felices", "22222222J", "aaaa@aaaa.com", "950262626", LocalDate.of(1950,1,1));
         Huesped huesped2 = new Huesped("carlos salfredo", "11111111H", "bbbb@bbbb.com", "650151515", LocalDate.of(1975,1,1));
-        Habitacion habitacion1 = new Habitacion(1,1,100,TipoHabitacion.TRIPLE);
-        Habitacion habitacion2 = new Habitacion(1,2,100,TipoHabitacion.TRIPLE);
+        Huesped huesped3 = new Huesped("lucia    hubris", "12345678Z", "cccc@cccc.com", "950262626", LocalDate.of(1950,1,1));
+        Huesped huesped4 = new Huesped("alicia salmorejo", "11223344B", "dddd@dddd.com", "650151515", LocalDate.of(1975,1,1));
+        Habitacion habitacion1 = new Habitacion(1,1,71,TipoHabitacion.TRIPLE);
+        Habitacion habitacion2 = new Habitacion(1,2,72,TipoHabitacion.TRIPLE);
+        Habitacion habitacion3 = new Habitacion(3,1,75,TipoHabitacion.TRIPLE);
+        Habitacion habitacion4 = new Habitacion(2,2,74,TipoHabitacion.TRIPLE);
+        Habitacion habitacion5 = new Habitacion(2,1,73,TipoHabitacion.TRIPLE);
+        Habitacion habitacion6 = new Habitacion(3,2,76,TipoHabitacion.TRIPLE);
         LocalDate inicio1 = LocalDate.of(2024,2,15);
         LocalDate fin1 = LocalDate.of(2024,2,20);
         LocalDate inicio2 = LocalDate.of(2024,4,15);
@@ -262,8 +275,14 @@ public class Vista {
         try {
             controlador.insertar(huesped1);
             controlador.insertar(huesped2);
+            controlador.insertar(huesped3);
+            controlador.insertar(huesped4);
             controlador.insertar(habitacion1);
             controlador.insertar(habitacion2);
+            controlador.insertar(habitacion3);
+            controlador.insertar(habitacion4);
+            controlador.insertar(habitacion5);
+            controlador.insertar(habitacion6);
             controlador.insertar(reserva1);
             controlador.insertar(reserva2);
             controlador.insertar(reserva3);
@@ -328,6 +347,8 @@ public class Vista {
     private void mostrarReservas(){
         List<Reserva> lista;
         lista = controlador.getReservas();
+
+        //lista.sort(Comparator.comparing(Habitacion::getIdentificador));
         lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed()); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
 
         System.out.println(" ");
