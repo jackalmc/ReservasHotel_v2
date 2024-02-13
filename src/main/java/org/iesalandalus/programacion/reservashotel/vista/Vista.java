@@ -9,11 +9,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static java.lang.System.exit;
+
 public class Vista {
 
     private Controlador controlador;
 
-    private static boolean salir = false;
+
 
     public void setControlador(Controlador controlador){
         if (controlador==null)
@@ -23,7 +25,8 @@ public class Vista {
     }
 
     public void comenzar(){
-        while(!salir) {
+
+        while(true) {
             try {
                 Consola.mostrarMenu();
                 ejecutarOpcion(Consola.elegirOpcion());
@@ -55,7 +58,7 @@ public class Vista {
             case INSERTAR_HABITACION -> insertarHabitacion();
             case MOSTRAR_HABITACIONES -> mostrarHabitaciones();
             case CONSULTAR_DISPONIBILIDAD -> System.out.println(consultarDisponibilidad(Consola.leerTipoHabitacion(), Consola.leerFecha(Entrada.cadena()), Consola.leerFecha(Entrada.cadena())));
-            case SALIR -> salir=true;
+            case SALIR -> exit(0);
             case DEBUG -> debug();
             case REALIZAR_CHECKIN -> realizarCheckin();
             case REALIZAR_CHECKOUT -> realizarCheckout();
@@ -114,8 +117,10 @@ public class Vista {
         System.out.println(" ");
         System.out.println("*****");
 
-        for (Huesped huesped : lista)
-            System.out.println(huesped);
+        Iterator<Huesped> i = lista.iterator();
+
+        while (i.hasNext())
+            System.out.println(i.next());
 
         System.out.println("*****");
         System.out.println(" ");
@@ -167,8 +172,10 @@ public class Vista {
         System.out.println(" ");
         System.out.println("*****");
 
-        for (Habitacion habitacion : lista)
-            System.out.println(habitacion);
+        Iterator<Habitacion> i = lista.iterator();
+        while (i.hasNext()){
+            System.out.println(i.next());
+        }
 
         System.out.println("*****");
         System.out.println(" ");
@@ -206,16 +213,21 @@ public class Vista {
     private void listarReservas(Huesped huesped){
         List<Reserva> lista;
         lista = controlador.getReservas(huesped);
-        for (Reserva reserva : lista)
-            System.out.println(reserva);
+
+        Iterator<Reserva> i = lista.iterator();
+        while (i.hasNext())
+            System.out.println(i.next());
+
 
     }
 
     private void listarReservas(TipoHabitacion tipoHabitacion){
         List<Reserva> lista;
         lista = controlador.getReservas(tipoHabitacion);
-        for (Reserva reserva : lista)
-            System.out.println(reserva);
+
+        Iterator<Reserva> i = lista.iterator();
+        while (i.hasNext())
+            System.out.println(i.next());
 
     }
 
@@ -223,7 +235,6 @@ public class Vista {
     private List<Reserva> getReservasAnulables(List<Reserva> reservasAAnular){
 
         List<Reserva> listaAnulables = new ArrayList<>();
-
 
         for (Reserva reserva : reservasAAnular){
             if (reserva.getFechaInicioReserva().isAfter(LocalDate.now()))
@@ -318,11 +329,14 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas();
         lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed()); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
+
         System.out.println(" ");
         System.out.println("*****");
-        for (Reserva reserva : lista) {
-            System.out.println(reserva);
-        }
+
+        Iterator<Reserva> i = lista.iterator();
+        while (i.hasNext())
+            System.out.println(i.next());
+
         System.out.println("*****");
         System.out.println(" ");
     }

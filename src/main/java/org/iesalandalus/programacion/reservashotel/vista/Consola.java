@@ -6,10 +6,10 @@ import org.iesalandalus.programacion.utilidades.Entrada;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.iesalandalus.programacion.reservashotel.modelo.Modelo.huespedes;
 
 
 public class Consola {
@@ -18,8 +18,9 @@ public class Consola {
 
     public static void mostrarMenu(){
 
-        for (Opcion opcion : Opcion.values())
-            System.out.println(opcion);
+        Iterator<Opcion> opcionIterator = Arrays.stream(Opcion.values()).iterator();
+        while (opcionIterator.hasNext())
+            System.out.println(opcionIterator.next());
 
         System.out.println(" ");
 
@@ -146,8 +147,9 @@ public class Consola {
         System.out.println("-----");
         System.out.println("Elige tipo de habitación: ");
 
-        for (TipoHabitacion tipoHabitacion1: TipoHabitacion.values())
-            System.out.println(tipoHabitacion1);
+        Iterator<TipoHabitacion> tipoHabitacionIterator = Arrays.stream(TipoHabitacion.values()).iterator();
+        while (tipoHabitacionIterator.hasNext())
+            System.out.println(tipoHabitacionIterator.next());
         System.out.println("-----");
 
         do{
@@ -163,8 +165,10 @@ public class Consola {
 
         System.out.println("-----");
         System.out.println("Elige tipo de régimen: ");
-        for (Regimen regimen : Regimen.values())
-            System.out.println(regimen);
+
+        Iterator<Regimen> regimenIterator = Arrays.stream(Regimen.values()).iterator();
+        while (regimenIterator.hasNext())
+            System.out.println(regimenIterator.next());
         System.out.println("-----");
 
         do{

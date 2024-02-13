@@ -8,8 +8,8 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Reservas {
@@ -32,8 +32,10 @@ public class Reservas {
 
         List<Reserva> copia = new ArrayList<>();
 
-        for (Reserva reserva : coleccionReservas)
-            copia.add(new Reserva(reserva));
+        Iterator<Reserva> reservaIterator = coleccionReservas.iterator();
+        while (reservaIterator.hasNext())
+            copia.add(new Reserva(reservaIterator.next()));
+
         return copia;
     }
 

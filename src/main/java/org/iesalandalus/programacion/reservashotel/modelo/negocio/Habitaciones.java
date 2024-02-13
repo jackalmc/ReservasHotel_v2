@@ -5,8 +5,8 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
 
 import javax.naming.OperationNotSupportedException;
-import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Habitaciones {
@@ -41,8 +41,10 @@ public class Habitaciones {
 
         List<Habitacion> copia = new ArrayList<>();
 
-        for (Habitacion habitacion : coleccionHabitaciones)
-            copia.add(new Habitacion(habitacion));
+        Iterator<Habitacion> habitacionIterator = coleccionHabitaciones.iterator();
+        while (habitacionIterator.hasNext())
+            copia.add(new Habitacion(habitacionIterator.next()));
+
         return copia;
     }
 

@@ -4,6 +4,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Huespedes {
@@ -24,9 +25,11 @@ public class Huespedes {
             throw new NullPointerException("La colección no ha sido creada aún");
 
         List<Huesped> copia = new ArrayList<>();
-        for (Huesped huesped : coleccionHuespedes){
-            copia.add(new Huesped(huesped));
-        }
+
+        Iterator <Huesped> huespedIterator = coleccionHuespedes.iterator();
+        while (huespedIterator.hasNext())
+            copia.add(new Huesped(huespedIterator.next()));
+
         return copia;
     }
 

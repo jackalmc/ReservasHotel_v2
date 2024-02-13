@@ -16,7 +16,7 @@ public class Modelo {
 
     private static Habitaciones habitaciones;
     private static Reservas reservas;
-    public static Huespedes huespedes;
+    private static Huespedes huespedes;
 
 
     public Modelo(){
