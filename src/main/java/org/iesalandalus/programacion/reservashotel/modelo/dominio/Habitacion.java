@@ -23,6 +23,11 @@ public class Habitacion {
         identificador= "" +planta +puerta;
     }
     private void setIdentificador(String identificador) {
+        if (identificador == null)
+            throw new NullPointerException("Identificador nulo");
+        if (identificador.isBlank())
+            throw new IllegalArgumentException("Identificador en blanco");
+
         this.identificador = identificador;
     }
 

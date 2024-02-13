@@ -184,9 +184,8 @@ public class Consola {
         int numeroPersonas;
 
         huesped = Consola.getHuespedPorDni();
-        huesped = huespedes.buscar(huesped);
+        habitacion=leerHabitacionPorIdentificador();
 
-        habitacion=leerHabitacion();
         regimen=leerRegimen();
         System.out.println("-|Fecha de entrada (dd/MM/yyyy) |-");
         fechaInicio=leerFecha(Entrada.cadena());

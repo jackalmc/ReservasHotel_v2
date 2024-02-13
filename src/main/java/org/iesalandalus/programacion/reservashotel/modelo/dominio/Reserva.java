@@ -22,13 +22,14 @@ public class Reserva {
     private int numeroPersonas;
 
     public Huesped getHuesped() {
-        return huesped;
+        return new Huesped(huesped);
     }
 
     public void setHuesped(Huesped huesped) {
         if (huesped == null)
             throw new NullPointerException("huesped nulo (set)");
-        this.huesped = huesped;
+
+        this.huesped = new Huesped(huesped);
     }
 
     public Habitacion getHabitacion() {
@@ -107,6 +108,7 @@ public class Reserva {
             throw new IllegalArgumentException("ERROR: El checkout de una reserva puede ser como máximo 12 horas después de la fecha de fin de la reserva.");
 
         this.checkOut = checkOut;
+        setPrecio();
     }
 
     public double getPrecio() {
@@ -162,8 +164,17 @@ public class Reserva {
         setFechaInicioReserva(reserva.getFechaInicioReserva());
         setFechaFinReserva(reserva.getFechaFinReserva());
         setNumeroPersonas(reserva.getNumeroPersonas());
-        checkIn=reserva.getCheckIn();
-        checkOut=reserva.getCheckOut();
+
+        if (reserva.getCheckIn() == null)
+            checkIn = null;
+        else
+            setCheckIn(reserva.getCheckIn());
+
+        if (reserva.getCheckOut() == null)
+            checkOut = null;
+        else
+            setCheckOut(reserva.getCheckOut());
+
         setPrecio();
 
     }

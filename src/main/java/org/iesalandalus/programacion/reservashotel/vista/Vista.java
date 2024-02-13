@@ -78,7 +78,16 @@ public class Vista {
     }
 
     private void buscarHuesped(){
-        System.out.println(controlador.buscar(Consola.getHuespedPorDni()));
+        Huesped buscado = Consola.getHuespedPorDni();
+        try{
+            if (controlador.buscar(buscado) == null)
+                System.out.println("---> Huésped no encontrado <---");
+            else
+                System.out.println(controlador.buscar(buscado));
+        }catch (NullPointerException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void borrarHuesped(){
@@ -101,6 +110,7 @@ public class Vista {
     private void mostrarHuespedes(){
         List<Huesped> lista;
         lista = controlador.getHuespedes();
+        lista.sort(Comparator.comparing(Huesped::getNombre));
         System.out.println(" ");
         System.out.println("*****");
 
@@ -125,13 +135,16 @@ public class Vista {
     }
 
     private void buscarHabitacion(){
+        Habitacion buscado = Consola.leerHabitacionPorIdentificador();
         try{
-            System.out.println(controlador.buscar(Consola.leerHabitacionPorIdentificador()));
-
-        }catch (NullPointerException|IllegalArgumentException e){
+            if (controlador.buscar(buscado) == null)
+                System.out.println("---> Habitación no encontrada <---");
+            else
+                System.out.println(controlador.buscar(buscado));
+        }catch (NullPointerException e){
             System.out.println(e.getMessage());
-
         }
+
     }
 
     private void borrarHabitacion(){
@@ -163,7 +176,15 @@ public class Vista {
     }
     private void insertarReserva(){
         Reserva habitacionDeseada = Consola.leerReserva();
-        if (consultarDisponibilidad(habitacionDeseada.getHabitacion().getTipoHabitacion(), habitacionDeseada.getFechaInicioReserva(), habitacionDeseada.getFechaFinReserva()) == null) {
+
+        //Con esto intentamos recuperar la habitación y huésped correcta insertada anteriormente
+        try{
+            habitacionDeseada = new Reserva(controlador.buscar(habitacionDeseada.getHuesped()), controlador.buscar(habitacionDeseada.getHabitacion()), habitacionDeseada.getRegimen(), habitacionDeseada.getFechaInicioReserva(), habitacionDeseada.getFechaFinReserva(), habitacionDeseada.getNumeroPersonas());
+        }catch (NullPointerException|IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+
+        if (consultarDisponibilidad(habitacionDeseada.getHabitacion().getTipoHabitacion(), habitacionDeseada.getFechaInicioReserva(), habitacionDeseada.getFechaFinReserva()) != null) {
 
             try {
                 controlador.insertar(habitacionDeseada);
@@ -296,7 +317,7 @@ public class Vista {
     private void mostrarReservas(){
         List<Reserva> lista;
         lista = controlador.getReservas();
-        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva)); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed()); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
         System.out.println(" ");
         System.out.println("*****");
         for (Reserva reserva : lista) {
