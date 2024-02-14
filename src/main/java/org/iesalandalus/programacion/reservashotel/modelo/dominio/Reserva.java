@@ -196,6 +196,14 @@ public class Reserva {
         return Objects.hash(habitacion, fechaInicioReserva);
     }
 
+    public int compareTo(Reserva otraReserva) {
+        return this.getHabitacion().getIdentificador().compareTo(otraReserva.getHabitacion().getIdentificador());
+    }
+
+    public int compareToByName(Reserva reserva){
+        return this.getHuesped().getNombre().compareTo(reserva.getHuesped().getNombre());
+    }
+
     @Override
     public String toString() {
         return  String.format("Huesped: %s %s Habitación:%s - %s Fecha Inicio Reserva: %s Fecha Fin Reserva: %s Checkin: %s Checkout: %s Precio: %.2f Personas: %d",

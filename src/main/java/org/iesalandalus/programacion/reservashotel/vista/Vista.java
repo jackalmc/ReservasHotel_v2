@@ -217,7 +217,7 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas(huesped);
 
-        //lista.sort(Comparator.comparing(lista.get(0).getHabitacion()::getIdentificador));
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).thenComparing(Reserva::compareTo));
 
         Iterator<Reserva> i = lista.iterator();
         while (i.hasNext())
@@ -230,7 +230,7 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas(tipoHabitacion);
 
-        //lista.sort(Comparator.comparing(Huesped::getNombre));
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).thenComparing(Reserva::compareToByName));
 
         Iterator<Reserva> i = lista.iterator();
         while (i.hasNext())
@@ -348,8 +348,7 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas();
 
-        //lista.sort(Comparator.comparing(Habitacion::getIdentificador));
-        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed()); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed().thenComparing(Reserva::compareTo)); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
 
         System.out.println(" ");
         System.out.println("*****");

@@ -13,7 +13,7 @@ public class Habitacion {
     private int planta;
     private int puerta;
     private double precio;
-    TipoHabitacion tipoHabitacion;
+    private TipoHabitacion tipoHabitacion;
 
     public String getIdentificador() {
         return identificador;

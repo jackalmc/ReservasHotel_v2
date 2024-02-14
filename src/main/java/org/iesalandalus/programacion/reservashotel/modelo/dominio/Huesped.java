@@ -179,6 +179,7 @@ public class Huesped {
         return Objects.equals(dni, huesped.dni);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(dni);
