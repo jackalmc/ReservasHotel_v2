@@ -28,10 +28,14 @@ public class Habitaciones {
 
         List<Habitacion> copiaEspecial = new ArrayList<>();
 
-        for (Habitacion habitacion : coleccionHabitaciones){
-            if (habitacion.getTipoHabitacion() == tipoHabitacion)
-                copiaEspecial.add(new Habitacion(habitacion));
+        Iterator<Habitacion> habitacionIterator = coleccionHabitaciones.iterator();
+        Habitacion token;
+        while (habitacionIterator.hasNext()){
+            token = habitacionIterator.next();
+            if (token.getTipoHabitacion() == tipoHabitacion)
+                copiaEspecial.add(new Habitacion(token));
         }
+
         return copiaEspecial;
     }
 

@@ -26,10 +26,13 @@ public class Vista {
 
     public void comenzar(){
 
-        while(true) {
+        Opcion opcion = null;
+
+        while(opcion != Opcion.SALIR) {
             try {
                 Consola.mostrarMenu();
-                ejecutarOpcion(Consola.elegirOpcion());
+                opcion = Consola.elegirOpcion();
+                ejecutarOpcion(opcion);
 
             }catch (IllegalArgumentException|NullPointerException|IllegalStateException e){
                 System.out.println(e.getMessage());
@@ -39,6 +42,7 @@ public class Vista {
 
     public void terminar(){
         System.out.println("\n***\nHasta luego!!!!\n***");
+        System.out.println("*** Vista ha pasado a mejor vida! ***");
     }
 
     private void ejecutarOpcion(Opcion opcion){
@@ -58,7 +62,7 @@ public class Vista {
             case INSERTAR_HABITACION -> insertarHabitacion();
             case MOSTRAR_HABITACIONES -> mostrarHabitaciones();
             case CONSULTAR_DISPONIBILIDAD -> System.out.println(consultarDisponibilidad(Consola.leerTipoHabitacion(), Consola.leerFecha(Entrada.cadena()), Consola.leerFecha(Entrada.cadena())));
-            case SALIR -> exit(0);
+            case SALIR -> controlador.terminar();
             case DEBUG -> debug();
             case REALIZAR_CHECKIN -> realizarCheckin();
             case REALIZAR_CHECKOUT -> realizarCheckout();
@@ -217,7 +221,8 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas(huesped);
 
-        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).thenComparing(Reserva::compareTo));
+        Comparator<Habitacion> habitacionComparator = Comparator.comparing(Habitacion::getIdentificador);
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).thenComparing(Reserva::getHabitacion, habitacionComparator));
 
         Iterator<Reserva> i = lista.iterator();
         while (i.hasNext())
@@ -230,7 +235,8 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas(tipoHabitacion);
 
-        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).thenComparing(Reserva::compareToByName));
+        Comparator<Huesped> huespedComparator = Comparator.comparing(Huesped::getNombre);
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).thenComparing(Reserva::getHuesped, huespedComparator));
 
         Iterator<Reserva> i = lista.iterator();
         while (i.hasNext())
@@ -243,10 +249,15 @@ public class Vista {
 
         List<Reserva> listaAnulables = new ArrayList<>();
 
-        for (Reserva reserva : reservasAAnular){
-            if (reserva.getFechaInicioReserva().isAfter(LocalDate.now()))
-                listaAnulables.add(new Reserva(reserva));
+        Iterator<Reserva> reservaIterator = reservasAAnular.iterator();
+        Reserva token;
+
+        while (reservaIterator.hasNext()) {
+            token = reservaIterator.next();
+            if (token.getFechaInicioReserva().isAfter(LocalDate.now()))
+                listaAnulables.add(new Reserva(token));
         }
+
 
         return listaAnulables;
     }
@@ -348,7 +359,9 @@ public class Vista {
         List<Reserva> lista;
         lista = controlador.getReservas();
 
-        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed().thenComparing(Reserva::compareTo)); //Fecha ini, reciente -> far. habitacion en ascendente planta puerta
+        //fecha inicio, de reciente a mayor; habitación, identificador en ascendente
+        Comparator<Habitacion> habitacionComparator = Comparator.comparing(Habitacion::getIdentificador);
+        lista.sort(Comparator.comparing(Reserva::getFechaInicioReserva).reversed().thenComparing(Reserva::getHabitacion, habitacionComparator));
 
         System.out.println(" ");
         System.out.println("*****");
@@ -449,8 +462,12 @@ public class Vista {
     private static int getNumElementosNoNulos(List<Reserva> reservas){
         int numero=0;
         //Tod-o lo que usa esto podría usar size() creo
-        for (Reserva reserva : reservas)
+        Iterator<Reserva> reservaIterator = reservas.iterator();
+
+        while (reservaIterator.hasNext()){
             numero++;
+            reservaIterator.next();
+        }
 
         return numero;
     }

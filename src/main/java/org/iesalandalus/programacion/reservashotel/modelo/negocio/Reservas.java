@@ -83,11 +83,14 @@ public class Reservas {
 
         List<Reserva> copiaEspecial = new ArrayList<>();
 
-        for (Reserva reserva : coleccionReservas){
-            if (reserva.getHuesped().equals(huesped)) {
-                copiaEspecial.add(new Reserva(reserva));
-            }
+        Iterator<Reserva> reservaIterator = coleccionReservas.iterator();
+        Reserva token;
+        while (reservaIterator.hasNext()){
+            token = reservaIterator.next();
+            if (token.getHuesped().equals(huesped))
+                copiaEspecial.add(new Reserva(token));
         }
+
         return copiaEspecial;
 
     }
@@ -99,11 +102,14 @@ public class Reservas {
 
         List<Reserva> copiaEspecial = new ArrayList<>();
 
-        for (Reserva reserva : coleccionReservas){
-            if (reserva.getHabitacion().getTipoHabitacion().equals(tipoHabitacion)) {
-                copiaEspecial.add(new Reserva(reserva));
-            }
+        Iterator<Reserva> reservaIterator = coleccionReservas.iterator();
+        Reserva token;
+        while (reservaIterator.hasNext()){
+            token = reservaIterator.next();
+            if (token.getHabitacion().getTipoHabitacion().equals(tipoHabitacion))
+                copiaEspecial.add(new Reserva(token));
         }
+
         return copiaEspecial;
     }
     public List<Reserva> getReservasFuturas(Habitacion habitacion){
@@ -114,11 +120,14 @@ public class Reservas {
 
         List<Reserva> copiaEspecial = new ArrayList<>();
 
-        for (Reserva reserva : coleccionReservas){
-            if (reserva.getFechaInicioReserva().isAfter(LocalDate.now()) && reserva.getHabitacion().equals(habitacion)) {
-                copiaEspecial.add(new Reserva(reserva));
-            }
+        Iterator<Reserva> reservaIterator = coleccionReservas.iterator();
+        Reserva token;
+        while (reservaIterator.hasNext()){
+            token = reservaIterator.next();
+            if (token.getFechaInicioReserva().isAfter(LocalDate.now()) && token.getHabitacion().equals(habitacion))
+                copiaEspecial.add(new Reserva(token));
         }
+
         return copiaEspecial;
     }
 
@@ -141,6 +150,8 @@ public class Reservas {
             throw new NullPointerException("La reserva es nula (CheckOut)");
         if (fecha == null)
             throw new NullPointerException("La fecha es nula (CheckOut)");
+        if (reserva.getCheckIn() == null)
+            throw new NullPointerException("No se puede realizar CheckOut antes de hacer CheckIn");
         if (fecha.isBefore(reserva.getCheckIn()))
             throw new IllegalArgumentException("No se puede hacer un CheckOut antes de la fecha del CheckIn");
         if (fecha.isAfter(reserva.getFechaFinReserva().atStartOfDay().plusHours(Reserva.MAX_HORAS_POSTERIOR_CHECKOUT)))
