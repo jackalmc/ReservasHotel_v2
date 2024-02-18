@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.lang.System.exit;
+import static java.lang.System.setOut;
 
 public class Vista {
 
@@ -50,22 +51,65 @@ public class Vista {
         if (opcion == null)
             throw new IllegalArgumentException("Opción nula");
         switch (opcion){
-            case BUSCAR_HABITACION -> buscarHabitacion();
-            case BORRAR_HUESPED -> borrarHuesped();
-            case INSERTAR_HUESPED -> insertarHuesped();
-            case ANULAR_RESERVA -> anularReserva();
-            case BUSCAR_HUESPED -> buscarHuesped();
-            case INSERTAR_RESERVA -> insertarReserva();
-            case MOSTRAR_RESERVAS -> mostrarReservas();
-            case BORRAR_HABITACION -> borrarHabitacion();
-            case MOSTRAR_HUESPEDES -> mostrarHuespedes();
-            case INSERTAR_HABITACION -> insertarHabitacion();
-            case MOSTRAR_HABITACIONES -> mostrarHabitaciones();
-            case CONSULTAR_DISPONIBILIDAD -> System.out.println(consultarDisponibilidad(Consola.leerTipoHabitacion(), Consola.leerFecha(Entrada.cadena()), Consola.leerFecha(Entrada.cadena())));
-            case SALIR -> controlador.terminar();
-            case DEBUG -> debug();
-            case REALIZAR_CHECKIN -> realizarCheckin();
-            case REALIZAR_CHECKOUT -> realizarCheckout();
+            case BUSCAR_HABITACION:
+                buscarHabitacion();
+                break;
+            case BORRAR_HUESPED:
+                borrarHuesped();
+                break;
+            case INSERTAR_HUESPED:
+                insertarHuesped();
+                break;
+            case ANULAR_RESERVA:
+                anularReserva();
+                break;
+            case BUSCAR_HUESPED:
+                buscarHuesped();
+                break;
+            case INSERTAR_RESERVA:
+                insertarReserva();
+                break;
+            case MOSTRAR_RESERVAS:
+                mostrarReservas();
+                break;
+            case BORRAR_HABITACION:
+                borrarHabitacion();
+                break;
+            case MOSTRAR_HUESPEDES:
+                mostrarHuespedes();
+                break;
+            case INSERTAR_HABITACION:
+                insertarHabitacion();
+                break;
+            case MOSTRAR_HABITACIONES:
+                mostrarHabitaciones();
+                break;
+
+            case CONSULTAR_DISPONIBILIDAD:
+                System.out.println("Elige tipo de Habitación deseada: ");
+                TipoHabitacion tipoHabitacion = Consola.leerTipoHabitacion();
+                System.out.println("Introduce fecha de inicio de la reserva (dd/MM/yyyy): ");
+                LocalDate fechaini = Consola.leerFecha(Entrada.cadena());
+                System.out.println("Introduce fecha fin de la reserva (dd/MM/yyyy): ");
+                LocalDate fechafin = Consola.leerFecha(Entrada.cadena());
+                if (consultarDisponibilidad(tipoHabitacion, fechaini, fechafin) != null)
+                    System.out.println("*** Hay disponibilidad ***");
+                else
+                    System.out.println("*** No hay disponibilidad ***");
+                break;
+
+            case SALIR:
+                controlador.terminar();
+                break;
+            case DEBUG:
+                debug();
+                break;
+            case REALIZAR_CHECKIN:
+                realizarCheckin();
+                break;
+            case REALIZAR_CHECKOUT:
+                realizarCheckout();
+                break;
         }
     }
 
@@ -274,8 +318,8 @@ public class Vista {
         Habitacion habitacion4 = new Habitacion(2,2,74,TipoHabitacion.TRIPLE);
         Habitacion habitacion5 = new Habitacion(2,1,73,TipoHabitacion.TRIPLE);
         Habitacion habitacion6 = new Habitacion(3,2,76,TipoHabitacion.TRIPLE);
-        LocalDate inicio1 = LocalDate.of(2024,2,15);
-        LocalDate fin1 = LocalDate.of(2024,2,20);
+        LocalDate inicio1 = LocalDate.of(2024,3,15);
+        LocalDate fin1 = LocalDate.of(2024,3,20);
         LocalDate inicio2 = LocalDate.of(2024,4,15);
         LocalDate fin2 = LocalDate.of(2024,4,20);
         Reserva reserva1 = new Reserva(huesped1, habitacion1, Regimen.MEDIA_PENSION, inicio1, fin1, 2);
@@ -314,6 +358,11 @@ public class Vista {
         if (getNumElementosNoNulos(lista) == 0)
             System.out.println("No tiene reservas anulables");
         else if (getNumElementosNoNulos(lista) == 1) {
+
+            System.out.println("-------------");
+            System.out.println(lista.get(0));
+            System.out.println("-------------");
+
             String respuesta;
 
             do {
@@ -483,6 +532,10 @@ public class Vista {
 
         else if (getNumElementosNoNulos(lista) == 1) {
 
+            System.out.println("-------------");
+            System.out.println(lista.get(0));
+            System.out.println("-------------");
+
             System.out.println("Fecha y Hora de CheckIn (dd/MM/yyyy hh:mm:ss): ");
             LocalDateTime fechacheckin = Consola.leerFechaHora(Entrada.cadena());
 
@@ -533,6 +586,10 @@ public class Vista {
             System.out.println("El cliente no tiene reservas");
 
         else if (getNumElementosNoNulos(lista) == 1) {
+
+            System.out.println("-------------");
+            System.out.println(lista.get(0));
+            System.out.println("-------------");
 
             System.out.println("Fecha y Hora de CheckOut (dd/MM/yyyy hh:mm:ss): ");
             LocalDateTime fechacheckout = Consola.leerFechaHora(Entrada.cadena());
